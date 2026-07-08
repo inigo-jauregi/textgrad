@@ -8,6 +8,7 @@ __ENGINE_NAME_SHORTCUTS__ = {
     "sonnet-3.5": "claude-3-5-sonnet-20240620",
     "together-llama-3-70b": "together-meta-llama/Llama-3-70b-chat-hf",
     "vllm-llama-3-8b": "vllm-meta-llama/Meta-Llama-3-8B-Instruct",
+    "qwen3-8b": "huggingface-Qwen/Qwen3-8B",
 }
 
 # Any better way to do this?
@@ -75,6 +76,10 @@ def get_engine(engine_name: str, **kwargs) -> EngineLM:
         from .vllm import ChatVLLM
         engine_name = engine_name.replace("vllm-", "")
         return ChatVLLM(model_string=engine_name, **kwargs)
+    elif engine_name.startswith("huggingface-") or engine_name.startswith("hf-"):
+        from .huggingface import ChatHuggingFace
+        engine_name = engine_name.split("-", 1)[1]
+        return ChatHuggingFace(model_string=engine_name, **kwargs)
     elif "groq" in engine_name:
         from .groq import ChatGroq
         engine_name = engine_name.replace("groq-", "")
