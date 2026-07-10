@@ -21,7 +21,8 @@ import textgrad as tg
 from textgrad.engine.huggingface import ChatHuggingFace
 from textgrad import TextualGradientDescent_v2 as TGD_v2  # REVOLVE optimizer
 
-MODEL_STRING = "Qwen/Qwen3-8B"
+MODEL_STRING = "../CTRLPost/pretrained_lms/Qwen-Qwen3-8B"
+
 
 
 def build_engine():
