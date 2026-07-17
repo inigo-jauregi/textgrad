@@ -122,7 +122,7 @@ class TextualGradientDescent(Optimizer):
         # squeezed out by get_short_value() truncation) is gone from <PAST_ITERATIONS>
         # forever, not just from the current view.
         for parameter in self.parameters:
-            +           self.past_values_dict[parameter].append(parameter.value)
+            self.past_values_dict[parameter].append(parameter.value)
 
     @property
     def constraint_text(self):
