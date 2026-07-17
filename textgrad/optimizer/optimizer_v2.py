@@ -115,6 +115,15 @@ class TextualGradientDescent(Optimizer):
         self.do_gradient_memory = (gradient_memory > 0)
         self.past_values_dict = defaultdict(list)  # This will store past values for each variable
 
+        # Seed history with each parameter's pre-optimization value. Without this,
+        # the original value is never recoverable: update_past_values() is only
+        # called from step() *after* set_value() has already overwritten it, so
+        # whatever the optimizer discards on step 1 (e.g. context-tag instructions
+        # squeezed out by get_short_value() truncation) is gone from <PAST_ITERATIONS>
+        # forever, not just from the current view.
+        for parameter in self.parameters:
+            +           self.past_values_dict[parameter].append(parameter.value)
+
     @property
     def constraint_text(self):
         """Returns a formatted string representation of the constraints."""
